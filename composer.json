@@ -23,7 +23,7 @@
     "autoload": {
         "psr-0": { 
 			"Oh\\InstagramBundle": "",
-			"\\Instaphp": "Oh/InstagramBundle"
+			"Instaphp": "Oh/InstagramBundle"
 		}
     },
     "target-dir": "Oh/InstagramBundle"
