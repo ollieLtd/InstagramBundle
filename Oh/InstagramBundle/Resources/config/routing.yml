@@ -1,0 +1,7 @@
+OhInstagramBundle_callback:
+    pattern: /instaphp/callback
+    defaults: { _controller: OhInstagramBundle:Instagram:callback }
+    
+OhInstagramBundle_logout:
+    pattern: /logout
+    defaults: { _controller: OhInstagramBundle:Instagram:logout }

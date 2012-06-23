@@ -1,0 +1,29 @@
+{
+    "name": "oh/instagram-bundle",
+    "type": "symfony-bundle",
+    "description": "Use Instaphp by sesser (Randy) as a Symfony2 service",
+    "keywords": ["instagram", "api", "Symfony2"],
+    "homepage": "https://github.com/ollietb/OhInstagramBundle",
+    "license": "MIT",
+	"version": "1.0.0",
+    "authors": [
+        {
+            "name": "Ollie Harridge",
+            "email": "code@oll.ie"
+        },
+		{
+			"name": "sesser (randy)",
+			"email": "randy@instaphp.com"
+		}
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": "*"
+    },
+    "autoload": {
+        "psr-0": { 
+			"Oh\\InstagramBundle": ""
+		}
+    },
+    "target-dir": "Oh/InstagramBundle"
+}

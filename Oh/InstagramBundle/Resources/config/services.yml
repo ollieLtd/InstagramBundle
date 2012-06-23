@@ -1,0 +1,22 @@
+parameters:
+    instaphp.class:	      Instaphp\Instaphp
+    instaphp.token_class: Oh\InstagramBundle\TokenHandler\CookieToken
+    
+    instaphp.config:
+      version: v1
+      endpoint: https://api.instagram.com
+      endpoint_timeout: 10
+      client_id: %instagram_api_client_id%
+      client_secret: %instagram_api_client_secret%
+      scope: comments+likes+relationships
+      oauth_path: /oauth/authorize/?client_id={client_id}&amp;response_type=code&amp;redirect_uri={redirect_uri}
+      oauth_token_path: /oauth/access_token/
+      redirect_route: OhInstagramBundle_callback
+      no_verify_peer: true
+
+services:
+    instaphp_token_handler:
+        class:            %instaphp.token_class%
+    instaphp:
+        class:            %instaphp.class%
+        arguments:        [@instaphp_token_handler, %instaphp.config%, @router]
