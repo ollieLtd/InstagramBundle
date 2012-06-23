@@ -22,7 +22,8 @@
     },
     "autoload": {
         "psr-0": { 
-			"Oh\\InstagramBundle": ""
+			"Oh\\InstagramBundle": "",
+			"\\Instaphp": "Oh/InstagramBundle"
 		}
     },
     "target-dir": "Oh/InstagramBundle"
