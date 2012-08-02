@@ -5,3 +5,7 @@ OhInstagramBundle_callback:
 OhInstagramBundle_logout:
     pattern: /logout
     defaults: { _controller: OhInstagramBundle:Instagram:logout }
+    
+OhInstagramBundle_ajax_location_search:
+    pattern: /ajax/locationSearch
+    defaults: { _controller: OhInstagramBundle:Instagram:locationSearch, _format: json }
