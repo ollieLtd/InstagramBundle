@@ -104,6 +104,12 @@ class Response
 	 * @access public 
 	 */
 	public $json = '';
+    
+    /**
+     *
+     * @var Request
+     */
+    public $request = null;
 
 	public function __construct()
 	{
@@ -121,6 +127,8 @@ class Response
 	public static function Create(Request $request, Response $response)
 	{
 		$obj = json_decode($response->json);
+        
+        $response->request = $request;
 
 		//-- for embeded calls, just return the embeded object
 		if (isset($obj->{'provider_url'}) && !empty($obj->{'provider_url'})) {
@@ -221,4 +229,34 @@ class Response
 
 		return $data; 
 	}
+    
+    /**
+     * Returns a new Response object with the data from the next page
+     * @return Response
+     */
+    public function getNextPage()
+    {
+        if(property_exists($this, 'pagination'))
+        {
+            $pagination = $this->pagination;
+            
+            if(is_object($pagination) && property_exists($pagination, 'next_url'))
+            {
+                
+                $nextUrl = $this->pagination->next_url;
+
+                if($nextUrl) {
+                    // take out the query parameters and put them into an array
+                    $urlInfo = parse_url($nextUrl);
+                    parse_str($urlInfo['query'], $params);
+                    
+                    //get the new Response
+                    $result = $this->request->Get(strstr($nextUrl, '?', true), $params);
+                    return $result->response;
+                }
+            }
+        }
+        
+        return false;  
+    }
 }
