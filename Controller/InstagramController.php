@@ -29,7 +29,7 @@ class InstagramController extends Controller
 				$isLoggedIn = $this->get('instaphp_token_handler')->setToken($token);
 				$this->get('session')->setFlash('loggedin', 'Thanks for logging in');
 
-				return $this->redirect($this->generateUrl('homepage'));
+				return $this->redirect($this->generateUrl($this->container->getParameter('instaphp.redirect_route_login')));
 			}
 			else
 			{
@@ -92,7 +92,7 @@ class InstagramController extends Controller
 	public function logoutAction()
 	{
 		$isLoggedIn = $this->get('instaphp_token_handler')->logout();
-		return $this->redirect($this->get('router')->generate('homepage'));
+		return $this->redirect($this->generateUrl($this->container->getParameter('instaphp.redirect_route_logout')));
 	}
 
 	public function getToken()

@@ -1,6 +1,8 @@
 parameters:
     instaphp.class:	      Instaphp\Instaphp
     instaphp.token_class: Oh\InstagramBundle\TokenHandler\CookieToken
+    instaphp.redirect_route_login: homepage
+    instaphp.redirect_route_logout: homepage
     
     instaphp.config:
       version: v1
