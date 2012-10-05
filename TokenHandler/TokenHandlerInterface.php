@@ -7,6 +7,7 @@ interface TokenHandlerInterface
 	
 	/**
 	 * return the token however you want
+     * @return string/object The token to pass to Instaphp
 	 */
 	public function getToken();
 	
@@ -24,6 +25,7 @@ interface TokenHandlerInterface
 	
 	/**
 	 * set a new token
+     * @var string InstagramToken
 	 */
 	public function setToken($token);
 	
