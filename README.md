@@ -75,7 +75,7 @@ There are 2 TokenHandlers included.
 
         services:
             instaphp_token_handler:
-                class:            %instaphp.cookie_token_class%
+                class:            Oh\InstagramBundle\TokenHandler\CookieToken
  
 2.  UserToken - The Instagram auth code is stored in the User Entity. The methods 
 setInstagramAuthCode() and getInstagramAuthCode() must be implemented on your 
@@ -84,7 +84,7 @@ user is persisted and flushed in the Handler.
 
         services:
             instaphp_token_handler:
-                class:            %instaphp.user_token_class%
+                class:            Oh\InstagramBundle\TokenHandler\UserToken
                 arguments:        [@security.context, @doctrine.orm.default_entity_manager]
 
 3.  Both - This will look to see if the user can be retrieved from the context
@@ -92,12 +92,12 @@ and if it can't it will store the auth code in a cookie.
 
         services:
             instaphp_user_token_handler:
-                class:            %instaphp.user_token_class%
+                class:            Oh\InstagramBundle\TokenHandler\UserToken
                 arguments:        [@security.context, @doctrine.orm.default_entity_manager]
             instaphp_cookie_token_handler:
-                class:            %instaphp.cookie_token_class%
+                class:            Oh\InstagramBundle\TokenHandler\CookieToken
             instaphp_token_handler:
-                class:            %instaphp.token_class%
+                class:            Oh\InstagramBundle\TokenHandler\TokenManager
                 arguments:        [@instaphp_user_token_handler, @instaphp_cookie_token_handler]
 
 You can also implement your own TokenHandlerInterface to store the auth code
