@@ -22,3 +22,32 @@ services:
     instaphp:
         class:            %instaphp.class%
         arguments:        [@instaphp_token_handler, %instaphp.config%, @router]
+        
+        
+#### to get/set the instagram token from your user entity
+#parameters:
+#    instaphp.token_class: Oh\InstagramBundle\TokenHandler\UserToken
+#    
+#services:
+#    instaphp_token_handler:
+#        class:            %instaphp.token_class%
+#        arguments:        [@security.context, @doctrine.orm.default_entity_manager]
+
+
+#### or you can use both (if the user's not logged in then it uses cookie)
+#parameters:
+#    instaphp.token_class: Oh\InstagramBundle\TokenHandler\TokenManager
+#
+#    instaphp.user_token_class: Oh\InstagramBundle\TokenHandler\UserToken
+#    instaphp.cookie_token_class: Oh\InstagramBundle\TokenHandler\CookieToken
+#    
+#services:
+#    instaphp_user_token_handler:
+#        class:            %instaphp.user_token_class%
+#        arguments:        [@security.context, @doctrine.orm.default_entity_manager]
+#    instaphp_cookie_token_handler:
+#        class:            %instaphp.cookie_token_class%
+#
+#    instaphp_token_handler:
+#        class:            %instaphp.token_class%
+#        arguments:        [@instaphp_user_token_handler, @instaphp_cookie_token_handler]

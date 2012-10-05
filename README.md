@@ -6,24 +6,9 @@ Uses [Instaphp](https://github.com/sesser/Instaphp) by [sesser](https://github.c
 Installation
 ------------
 
-Install this bundle as usual by adding to deps:
+Install this bundle as usual by adding to composer.json:
 
-	// /deps
-	[OhEmojiBundle]
-	   git=https://github.com/ollietb/OhInstagramBundle
-	   target=/bundles/Oh/InstagramBundle
-
-and running the vendors script
-
-    php bin/vendors install
-
-Register the namespace in `app/autoload.php`:
-
-    // app/autoload.php
-    $loader->registerNamespaces(array(
-        // ...
-        'Oh' => __DIR__.'/../vendor/bundles',
-    ));
+    "oh/instagram-bundle": "dev-master"
 
 Register the bundle in `app/AppKernel.php`:
 
@@ -59,9 +44,12 @@ Usage (Controller)
 
     $userInfo = $response->data[0];
 
-You can also test if a user is logged in by implementing the 
-TokenHandlerInterface. A cookie method is provided, but you can use sessions or 
-a database by putting your own class into the parameter %instaphp.token_class%
+    // getting all the pages of results
+    do {
+        $pages[] = $response->data;
+    while($response = $response->getNextPage());
+
+You can also test if a user is logged in.
 
     //is a user logged in?
     $loggedIn = $this->get('instaphp_token_handler')->isLoggedIn();
@@ -77,6 +65,43 @@ Twig template
 You should set up your Instagram API account to callback to the
 "OhInstagramBundle_callback" route, which you can set yourself, or use the ones
 provided - "/instaphp/callback".
+
+Instagram Auth Token
+-----------
+
+There are 2 TokenHandlers included.
+
+1.  CookieToken - The Instagram auth code is stored in a cookie
+
+        services:
+            instaphp_token_handler:
+                class:            %instaphp.cookie_token_class%
+ 
+2.  UserToken - The Instagram auth code is stored in the User Entity. The methods 
+setInstagramAuthCode() and getInstagramAuthCode() must be implemented on your 
+User. When the login call is returned from Instagram, the code is set and the 
+user is persisted and flushed in the Handler.
+
+        services:
+            instaphp_token_handler:
+                class:            %instaphp.user_token_class%
+                arguments:        [@security.context, @doctrine.orm.default_entity_manager]
+
+3.  Both - This will look to see if the user can be retrieved from the context
+and if it can't it will store the auth code in a cookie.
+
+        services:
+            instaphp_user_token_handler:
+                class:            %instaphp.user_token_class%
+                arguments:        [@security.context, @doctrine.orm.default_entity_manager]
+            instaphp_cookie_token_handler:
+                class:            %instaphp.cookie_token_class%
+            instaphp_token_handler:
+                class:            %instaphp.token_class%
+                arguments:        [@instaphp_user_token_handler, @instaphp_cookie_token_handler]
+
+You can also implement your own TokenHandlerInterface to store the auth code
+somewhere else, like the session etc.
 
 Tests
 -------

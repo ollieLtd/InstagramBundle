@@ -33,11 +33,11 @@ class InstagramController extends Controller
 			}
 			else
 			{
-				$this->createNotFoundException($response->error);
+				$this->createNotFoundException($response->error->message);
 			}
 		}
 
-		return new Response(var_dump($response, 1), 200);
+		return new Response(print_r($response, 1), 200);
 	}
 
 	public function instagramOAuthLoginButtonAction()

@@ -93,9 +93,9 @@ class Instaphp extends ContainerAware
 		}else{
 			$token = null;
 		}
-		if(empty($config)) {
-			$config = $this->configDefaults;
-		}
+
+        $config = array_merge($this->configDefaults, $config);
+		
 		if($router) {
 			$config['redirect_uri'] = $router->generate($config['redirect_route'], array(), true);
 		}
