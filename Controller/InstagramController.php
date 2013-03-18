@@ -33,11 +33,11 @@ class InstagramController extends Controller
 			}
 			else
 			{
-				$this->createNotFoundException($response->error->message);
+				throw $this->createNotFoundException($response->error->message);
 			}
 		}
 
-		return new Response(print_r($response, 1), 200);
+		throw $this->createNotFoundException('Invalid Request');
 	}
 
 	public function instagramOAuthLoginButtonAction()
@@ -119,7 +119,7 @@ class InstagramController extends Controller
 		$lat = $request->query->get('lat', false);
 		$lng = $request->query->get('lng', false);
 		
-		if(!$lat || !$lng) {
+		if($lat === false || $lng === false) {
 			throw $this->createNotFoundException('Not a valid request');
 		}
 		

@@ -45,22 +45,22 @@ class Instaphp extends ContainerAware
 {
 
 	/**
-	 * @var Users
+	 * @var \Instaphp\Instagram\Users
 	 * @access public
 	 */
 	public $Users = null;
 	/**
-	 * @var Media
+	 * @var \Instaphp\Instagram\Media
 	 * @access public
 	 */
 	public $Media = null;
 	/**
-	 * @var Tags
+	 * @var \Instaphp\Instagram\Tags
 	 * @access public
 	 */
 	public $Tags = null;
 	/**
-	 * @var Locations
+	 * @var \Instaphp\Instagram\Locations
 	 */
 	public $Locations = null;
 
