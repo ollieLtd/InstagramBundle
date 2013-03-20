@@ -120,14 +120,14 @@ class InstagramController extends Controller
 		$lng = $request->query->get('lng', false);
 		
 		if($lat === false || $lng === false) {
-			throw $this->createNotFoundException('Not a valid request');
+                    throw $this->createNotFoundException('Not a valid request');
 		}
 		
-		/* @var $api Instaphp */
+		/* @var $api \Instaphp\Instaphp */
 		$api = $this->get('instaphp');
 		
 		$locations = $api->Locations->Search(array('lat'=>(float)$lat,'lng'=>(float)$lng));
-		
+                
 		$response = new Response();                                                
 		$response->headers->set('Content-type', 'application/json; charset=utf-8');
 		$response->setContent($locations->json);
