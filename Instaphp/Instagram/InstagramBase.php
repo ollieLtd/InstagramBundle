@@ -225,5 +225,13 @@ class InstagramBase
 		if (isset($this->parameters[$name]))
 			unset($this->parameters[$name]);
 	}
+    
+    /**
+     * Can be used to update the access token
+     */
+    public function setAccessToken($token)
+    {
+        $this->default_params['access_token'] = $token;
+    }
 
 }

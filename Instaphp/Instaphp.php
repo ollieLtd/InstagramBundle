@@ -129,5 +129,16 @@ class Instaphp extends ContainerAware
 	{
 		return $this->config['oauth_uri'];
 	}
+    
+    /**
+     * Can be used to update the access token
+     */
+    public function setAccessToken($token)
+    {
+        $this->Users->setAccessToken($token);
+        $this->Media->setAccessToken($token);
+        $this->Tags->setAccessToken($token);
+        $this->Locations->setAccessToken($token);
+    }
 
 }
