@@ -33,7 +33,7 @@
 namespace Instaphp;
     
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 use Oh\InstagramBundle\TokenHandler\TokenHandlerInterface;
 /**
  * A simple base class used to instantiate the various other API classes
@@ -86,7 +86,7 @@ class Instaphp extends ContainerAware
 
 	private static $instance = null;
 
-	public function __construct($tokenClass = null, $config = array(), Router $router = null)
+	public function __construct($tokenClass = null, $config = array(), RouterInterface $router = null)
 	{
 		if($tokenClass instanceof TokenHandlerInterface) {
 			$token = $tokenClass->getToken();
