@@ -135,5 +135,132 @@ class InstagramController extends Controller
 		return $response;
 		
 	}
+    
+    /**
+     * Follow a user using their ID (more efficient) or username
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws NotFoundHttpException
+     */
+    public function followAction(Request $request)
+    {
+        
+		if (!$request->isXmlHttpRequest()) {
+			throw $this->createNotFoundException('Not authorised');
+		}
+        
+		/* @var $api \Instaphp\Instaphp */
+		$api = $this->get('instaphp');
+        
+        $userId = $request->request->get('userId');
+        
+        // if its a username rather than user id
+        // if possible always use the ID
+        if(!is_numeric($userId))
+        {
+            $return = $api->Users->Find($userId);
+            $user = json_decode($return->json);
+            
+            // if the username isn't found or there's an error
+            if($user->meta->code != 200 || count($user->data) == 0) {
+                $response = new Response($return->json, $user->meta->code);                                                
+                $response->headers->set('Content-type', 'application/json; charset=utf-8');
+                return $response;
+            }
+            
+            // return an error if there is more than one result
+            if(count($user->data) > 1) {
+                $response = new Response($return->json, 500);                                              
+                $response->headers->set('Content-type', 'application/json; charset=utf-8');
+                return $response;
+            }
+            
+            $userId = $user->data[0]->id;
+        }
+        
+        $return = $api->Users->Follow($userId);
+
+        return $this->returnInstagramResponse($return);
+        
+    }
+    
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws NotFoundHttpException
+     */
+    public function likeAction(Request $request)
+    {
+
+		if (!$request->isXmlHttpRequest()) {
+			throw $this->createNotFoundException('Not authorised');
+		}
+        
+		/* @var $api \Instaphp\Instaphp */
+		$api = $this->get('instaphp');
+        
+        $mediaId = $request->request->get('mediaId');
+        
+        $return = $api->Media->Like($mediaId);
+
+        return $this->returnInstagramResponse($return);
+    }
+    
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * 
+     * @todo Instagram are currently reviewing applications to comment
+     * in an attempt to cut down spam. If this method does not work for you,
+     * check the message in the response.
+     */
+    public function commentAction(Request $request)
+    {
+		if (!$request->isXmlHttpRequest()) {
+			throw $this->createNotFoundException('Not authorised');
+		}
+        
+		/* @var $api \Instaphp\Instaphp */
+		$api = $this->get('instaphp');
+        
+        $mediaId = $request->request->get('mediaId');
+        $comment = $request->request->get('comment');
+        
+        $return = $api->Media->Comment($mediaId, $comment);
+        
+        return $this->returnInstagramResponse($return);
+        
+    }
+    
+    /**
+     * 
+     * @param type $instagramResponse
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    private function returnInstagramResponse($instagramResponse)
+    {
+        try {
+            $metaCode = $instagramResponse->meta->code;
+            $json = $instagramResponse->json;
+            if($metaCode == 200){
+                $response = new Response();                                                
+                $response->headers->set('Content-type', 'application/json; charset=utf-8');
+                $response->setContent($json);
+
+                return $response;
+            }
+        }catch(\Exception $e) {
+            $metaCode = 500;
+            $json = json_encode(array('response'=>$instagramResponse, 'message'=>$e->getMessage()));
+        }
+
+        $response = new Response($json, $metaCode);                                                
+        $response->headers->set('Content-type', 'application/json; charset=utf-8');
+        return $response;
+
+        
+    }
 
 }

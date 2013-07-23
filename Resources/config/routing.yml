@@ -9,3 +9,15 @@ OhInstagramBundle_logout:
 OhInstagramBundle_ajax_location_search:
     pattern: /ajax/locationSearch
     defaults: { _controller: OhInstagramBundle:Instagram:locationSearch, _format: json }
+
+OhInstagramBundle_ajax_follow:
+    pattern: /ajax/follow
+    defaults: { _controller: OhInstagramBundle:Instagram:follow, _format: json }
+
+OhInstagramBundle_ajax_like:
+    pattern: /ajax/like
+    defaults: { _controller: OhInstagramBundle:Instagram:like, _format: json }
+
+OhInstagramBundle_ajax_comment:
+    pattern: /ajax/comment
+    defaults: { _controller: OhInstagramBundle:Instagram:comment, _format: json }
