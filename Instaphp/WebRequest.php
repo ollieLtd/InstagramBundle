@@ -230,17 +230,21 @@ class WebRequest
 		$running = null;
 
 		do {
-			$res = curl_multi_exec($this->mh, $current);
-			if (null !== $running && $current != $running) {
-				$this->store();	
+			$mrc = curl_multi_exec($this->mh, $running);
+		} while ($mrc == CURLM_CALL_MULTI_PERFORM);
 
-				if (isset($this->_responses[$key]))
-					return $this->_responses[$key];
-
+		while ($running && $mrc == CURLM_OK) {
+			if (curl_multi_select($this->mh) != -1) {
+				do {
+					$mrc = curl_multi_exec($this->mh, $running);
+				} while ($mrc == CURLM_CALL_MULTI_PERFORM);
 			}
-			$running = $current;
-		} while ($current > 0);
+		}
 
+		$this->store();
+		if (isset($this->_responses[$key])) {
+			return $this->_responses[$key];
+		}
 		return false;
 	}
 
