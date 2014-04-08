@@ -88,6 +88,9 @@ class WebRequest
 		if (isset($this->config['endpoint_timeout']))
 			$this->_options[CURLOPT_TIMEOUT] = $this->config['endpoint_timeout'];
 
+		if (isset($this->config['endpoint_connect_timeout']))
+			$this->_options[CURLOPT_CONNECTTIMEOUT] = $this->config['endpoint_connect_timeout'];
+
 		$this->_options[CURLOPT_USERAGENT] = 'Instaphp/' . $this->config['version'];
 
 		if(isset($this->config['no_verify_peer']))

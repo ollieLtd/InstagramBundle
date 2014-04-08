@@ -75,6 +75,7 @@ class Instaphp extends ContainerAware
       'version'=> 'v1',
       'endpoint'=> 'https://api.instagram.com',
       'endpoint_timeout'=> '10',
+      'endpoint_connect_timeout' => 2,
       'client_id'=> null,
       'client_secret'=> null,
       'oauth_path'=> '/oauth/authorize/?client_id={client_id}&amp;response_type=code&amp;redirect_uri={RedirectUri}',

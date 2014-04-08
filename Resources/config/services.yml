@@ -7,7 +7,8 @@ parameters:
     instaphp.config:
       version: v1
       endpoint: https://api.instagram.com
-      endpoint_timeout: 10
+      endpoint_timeout: %instagram_timeout%
+      endpoint_connect_timeout: %instagram_connect_timeout%
       client_id: %instagram_api_client_id%
       client_secret: %instagram_api_client_secret%
       scope: comments+likes+relationships
