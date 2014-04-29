@@ -60,7 +60,7 @@ Usage (Twig)
 Theres a login button included in the views. Just implement this line in your
 Twig template
 
-    {% render "OhInstagramBundle:Instagram:instagramLoginStatus" %}
+    {{ render(controller('OhInstagramBundle:Instagram:instagramLoginStatus')) }}
 
 You should set up your Instagram API account to callback to the
 "OhInstagramBundle_callback" route, which you can set yourself, or use the ones
