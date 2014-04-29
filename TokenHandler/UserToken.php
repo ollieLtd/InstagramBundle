@@ -72,14 +72,16 @@ class UserToken implements TokenHandlerInterface
 	
 	public function logout()
 	{
-		//not used
+        $this->user->setInstagramAuthCode(null);
+        $this->em->persist($this->user);
+        $this->em->flush($this->user);
 	}
 	
 	public function setToken($token)
 	{
 		$this->user->setInstagramAuthCode($token);
         $this->em->persist($this->user);
-        $this->em->flush();
+        $this->em->flush($this->user);
 	}
 	
 }
