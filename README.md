@@ -30,6 +30,13 @@ Add the following line to `app/config/config.yml`:
 	imports:
 		- { resource: @OhInstagramBundle/Resources/config/services.yml }
 
+Add the following config to your parameters.yml:
+
+    instagram_api_client_id: YOUR_API_ID
+    instagram_api_client_secret: YOUR_API_SECRET
+    instagram_timeout: 30
+    instagram_connect_timeout: 8
+
 And if you're OK with the provided routes, add these to `app/config/routing.yml`
 
     OhInstagramBundle:
