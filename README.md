@@ -9,6 +9,10 @@ Installation
 Install this bundle as usual by adding to composer.json:
 
     "oh/instagram-bundle": "dev-master"
+    
+After installing above module you need to update your composer
+
+    run the command “php composer.phar update”
 
 Register the bundle in `app/AppKernel.php`:
 
