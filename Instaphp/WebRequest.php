@@ -227,27 +227,28 @@ class WebRequest
 	 */
 	public function GetResponse($key = null)
 	{
-		if (isset($this->_responses[$key]))
+		// Check if the request has already been retrieved
+		if (array_key_exists($key, $this->_responses)) {
 			return $this->_responses[$key];
+		}
 
-		$running = null;
-
+		// Execute handles
 		do {
-			$mrc = curl_multi_exec($this->mh, $running);
-		} while ($mrc == CURLM_CALL_MULTI_PERFORM);
+			// Work on any available handles
+			curl_multi_exec($this->mh, $running);
 
-		while ($running && $mrc == CURLM_OK) {
-			if (curl_multi_select($this->mh) != -1) {
-				do {
-					$mrc = curl_multi_exec($this->mh, $running);
-				} while ($mrc == CURLM_CALL_MULTI_PERFORM);
+			// Store the response of any finished handles
+			$this->store();
+
+			// Return the response if retrieved
+			if (array_key_exists($key, $this->_responses)) {
+				return $this->_responses[$key];
 			}
-		}
 
-		$this->store();
-		if (isset($this->_responses[$key])) {
-			return $this->_responses[$key];
-		}
+			// Wait for activity on any handles (instead of looping quickly)
+			curl_multi_select($this->mh);
+		} while ($running > 0);
+
 		return false;
 	}
 
