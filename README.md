@@ -1,7 +1,7 @@
 OhInstagramBundle
 =================
 
-Uses [Instaphp](https://github.com/sesser/Instaphp) by [sesser](https://github.com/sesser) as a Symfony2 service
+Uses [Instaphp](https://github.com/sesser/Instaphp) by [sesser](https://github.com/sesser) as a Symfony2 service. Adapted to use Instaphp v2 as a dependency.
 
 Installation
 ------------
@@ -55,10 +55,7 @@ Usage (Controller)
 
     $userInfo = $response->data[0];
 
-    // getting all the pages of results
-    do {
-        $pages[] = $response->data;
-    while($response = $response->getNextPage());
+    // NB: pagination no longer compatible
 
 You can also test if a user is logged in.
 

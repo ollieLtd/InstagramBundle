@@ -1,11 +1,12 @@
 parameters:
-    instaphp.class:	      Instaphp\Instaphp
+    instaphp.class:	      Oh\InstagramBundle\Adaptor\InstaphpAdaptor
     instaphp.token_class: Oh\InstagramBundle\TokenHandler\CookieToken
     instaphp.redirect_route_login: homepage
     instaphp.redirect_route_logout: homepage
     
     instaphp.config:
       version: v1
+      log_path: %kernel.logs_dir%/instaphp-%kernel.environment%.log
       endpoint: https://api.instagram.com
       endpoint_timeout: %instagram_timeout%
       endpoint_connect_timeout: %instagram_connect_timeout%
