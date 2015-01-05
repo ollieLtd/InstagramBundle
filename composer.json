@@ -1,5 +1,5 @@
 {
-    "name": "oh/instagram-bundle-2",
+    "name": "ollieltd/instagram-bundle",
     "type": "symfony-bundle",
     "description": "Use Instaphp by sesser (Randy) as a Symfony2 service. Adapted to use Instaphp v2 as a dependency.",
     "keywords": ["instagram", "api", "Symfony2"],
