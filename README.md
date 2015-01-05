@@ -8,7 +8,7 @@ Installation
 
 Install this bundle as usual by adding to composer.json:
 
-    "oh/instagram-bundle": "dev-master"
+    "ollieltd/instagram-bundle": "dev-master"
     
 After installing above module you need to update your composer
 
