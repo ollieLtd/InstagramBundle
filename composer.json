@@ -3,7 +3,7 @@
     "type": "symfony-bundle",
     "description": "Use Instaphp by sesser (Randy) as a Symfony2 service. Adapted to use Instaphp v2 as a dependency.",
     "keywords": ["instagram", "api", "Symfony2"],
-    "homepage": "https://github.com/stephen-crowdreactive/OhInstagramBundle/",
+    "homepage": "https://github.com/ollieltd/InstagramBundle/",
     "license": "MIT",
 	"version": "2.0.0",
     "authors": [
