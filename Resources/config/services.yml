@@ -1,15 +1,13 @@
 parameters:
-    instaphp.class:	      Oh\InstagramBundle\Adaptor\InstaphpAdaptor
+    instaphp.class:	      Oh\InstagramBundle\Adapter\InstaphpAdapter
     instaphp.token_class: Oh\InstagramBundle\TokenHandler\CookieToken
-    instaphp.redirect_route_login: homepage
-    instaphp.redirect_route_logout: homepage
+    instaphp.redirect_route_login: OhInstagramBundle_check
+    instaphp.redirect_route_logout: OhInstagramBundle_check
     
     instaphp.config:
       version: v1
       log_path: %kernel.logs_dir%/instaphp-%kernel.environment%.log
       endpoint: https://api.instagram.com
-      endpoint_timeout: %instagram_timeout%
-      endpoint_connect_timeout: %instagram_connect_timeout%
       client_id: %instagram_api_client_id%
       client_secret: %instagram_api_client_secret%
       scope: comments+likes+relationships

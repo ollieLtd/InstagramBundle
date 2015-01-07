@@ -2,54 +2,74 @@
 
 namespace Oh\InstagramBundle\Controller;
 
+use Oh\InstagramBundle\Adapter\InstaphpAdapter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class InstagramController extends Controller
 {
 
+	/**
+	 * This Action saves the OAuth token by passing the it to the service `instaphp_token_handler`
+	 *
+	 * @param Request $request
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
 	public function callbackAction(Request $request)
 	{
+
 		$code = $request->get('code');
 
 		if (!empty($code))
 		{
 			//-- Create an Instaphp instance
-			/* @var $api Instaphp */
+			/* @var $api InstaphpAdaptor */
 			$api = $this->get('instaphp');
 
 			//-- Authenticate
-			$response = $api->Users->Authenticate($code);
+			$success = $api->Users->Authorize($code);
 
-			//-- If no errors, grab the access_token (and cookie it, if desired)
-			if (empty($response->error))
+			if ($success)
 			{
-				$token = $response->auth->access_token;
+				$token = $api->getAccessToken();
+
 				$isLoggedIn = $this->get('instaphp_token_handler')->setToken($token);
-                                $this->get('session')->getFlashBag()->add('loggedin', 'Thanks for logging in');
+
+				$this->get('session')->getFlashBag()->add('loggedin', 'Thanks for logging in');
 
 				return $this->redirect($this->generateUrl($this->container->getParameter('instaphp.redirect_route_login')));
 			}
 			else
 			{
-				throw $this->createNotFoundException($response->error->message);
+				throw $this->createNotFoundException();
 			}
 		}
 
 		throw $this->createNotFoundException('Invalid Request');
 	}
 
+	/**
+	 * Action which shows the login button
+	 *
+	 * @return Response
+	 */
 	public function instagramOAuthLoginButtonAction()
 	{
 
 		$instaphp = $this->get('instaphp');
 
-		$oAuthUrl = $instaphp->GetOAuthUri();
+		$oAuthUrl = $instaphp->getOauthUrl();
 
 		return $this->render('OhInstagramBundle:Instagram:loginButton.html.twig', array('oAuthUrl' => $oAuthUrl));
 	}
 
+	/**
+	 * This Action displays the user info (name and profile pic)
+	 *
+	 * @return Response
+	 */
 	public function userInfoAction()
 	{
 
@@ -69,14 +89,20 @@ class InstagramController extends Controller
 
 			$instaphp = $this->get('instaphp');
 
-			$info = $instaphp->Users->info();
+			$info = $instaphp->Users->Info('self');
 
 			return $this->render('OhInstagramBundle:Instagram:userInfo.html.twig', array('info' => $info), $response);
 		}
 	}
 
+	/**
+	 * Checks whether the user is logged in and if they are not, it shows the login button
+	 *
+	 * @return Response
+	 */
 	public function instagramLoginStatusAction()
 	{
+
 		$isLoggedIn = $this->get('instaphp_token_handler')->isLoggedIn();
 
 		if ($isLoggedIn)
@@ -89,12 +115,18 @@ class InstagramController extends Controller
 		}
 	}
 
+	/**
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
 	public function logoutAction()
 	{
 		$isLoggedIn = $this->get('instaphp_token_handler')->logout();
 		return $this->redirect($this->generateUrl($this->container->getParameter('instaphp.redirect_route_logout')));
 	}
 
+	/**
+	 * @return string|null
+	 */
 	public function getToken()
 	{
 		$tokenHandler = $this->get('instaphp_token_handler');
@@ -105,9 +137,10 @@ class InstagramController extends Controller
 	/**
      * submit a lat/lng and return a list of locations nearby
      * in the format ?lat=0.0000&lng=0.0000000
+	 *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws type 
+     * @throws NotFoundHttpException
      */
 	public function locationSearchAction(Request $request)
 	{
@@ -120,7 +153,7 @@ class InstagramController extends Controller
 		$lng = $request->query->get('lng', false);
 		
 		if($lat === false || $lng === false) {
-                    throw $this->createNotFoundException('Not a valid request');
+             throw $this->createNotFoundException('Not a valid request');
 		}
 		
 		/* @var $api \Instaphp\Instaphp */
@@ -138,6 +171,7 @@ class InstagramController extends Controller
     
     /**
      * Follow a user using their ID (more efficient) or username
+	 *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws NotFoundHttpException
@@ -149,7 +183,7 @@ class InstagramController extends Controller
 			throw $this->createNotFoundException('Not authorised');
 		}
         
-		/* @var $api \Instaphp\Instaphp */
+		/* @var $api InstaphpAdapter */
 		$api = $this->get('instaphp');
         
         $userId = $request->request->get('userId');
@@ -185,6 +219,7 @@ class InstagramController extends Controller
     }
     
     /**
+	 * Ajax method to like a mediaId
      * 
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -208,7 +243,8 @@ class InstagramController extends Controller
     }
     
     /**
-     * 
+     * Ajax method to submit a comment on a photo
+	 *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * 
@@ -235,19 +271,20 @@ class InstagramController extends Controller
     }
     
     /**
-     * 
+     * Returns the Instagram response
+	 *
      * @param type $instagramResponse
      * @return \Symfony\Component\HttpFoundation\Response
      */
     private function returnInstagramResponse($instagramResponse)
     {
         try {
-            $metaCode = $instagramResponse->meta->code;
+            $metaCode = $instagramResponse->meta['code'];
             $json = $instagramResponse->json;
             if($metaCode == 200){
                 $response = new Response();                                                
                 $response->headers->set('Content-type', 'application/json; charset=utf-8');
-                $response->setContent($json);
+                $response->setContent(json_encode($json));
 
                 return $response;
             }

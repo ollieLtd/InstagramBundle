@@ -46,16 +46,19 @@ And if you're OK with the provided routes, add these to `app/config/routing.yml`
 Usage (Controller)
 ------------
 
-    //finding a user
-    $query = "snoopdogg";
+	$query = "snoopdogg";
+	
+	/**
+	 * @var InstaphpAdapter
+	 */
+	$api = $this->get('instaphp');
 
-    $api = $this->get('instaphp');
-		
-    $response = $api->Users->Find($query);
+	$userId = $api->Users->FindId($query);
 
-    $userInfo = $response->data[0];
+	$media = $api->Users->Recent($userId);
 
-    // NB: pagination no longer compatible
+
+// NB: pagination no longer compatible
 
 You can also test if a user is logged in.
 
@@ -65,14 +68,24 @@ You can also test if a user is logged in.
 Usage (Twig)
 ------------
 
+You should set up your [Instagram API account](http://instagram.com/developer/clients/manage/) to callback to the
+"OhInstagramBundle_callback" route, which you can set yourself, or use the one
+provided which is "http://yourserver.com/instaphp/callback".
+
+For quick testing purposes you can add this to your routing
+
+    OhInstagramBundle_check:
+        pattern: /checkInstagram
+        defaults: { _controller: OhInstagramBundle:Instagram:instagramLoginStatus }
+
+Then navigate to /checkInstagram to try out the login button
+
 Theres a login button included in the views. Just implement this line in your
 Twig template
 
     {{ render(controller('OhInstagramBundle:Instagram:instagramLoginStatus')) }}
 
-You should set up your Instagram API account to callback to the
-"OhInstagramBundle_callback" route, which you can set yourself, or use the ones
-provided - "/instaphp/callback".
+
 
 Instagram Auth Token
 -----------
@@ -86,9 +99,10 @@ There are 2 TokenHandlers included.
                 class:            Oh\InstagramBundle\TokenHandler\CookieToken
  
 2.  UserToken - The Instagram auth code is stored in the User Entity. The methods 
-setInstagramAuthCode() and getInstagramAuthCode() must be implemented on your 
+`setInstagramAuthCode()` and `getInstagramAuthCode()` must be implemented on your 
 User. When the login call is returned from Instagram, the code is set and the 
-user is persisted and flushed in the Handler.
+user is persisted and flushed in the Handler. There is an interface which is
+recommended that you use on your Entity `Oh\InstagramBundle\TokenHandler\UserTokenInterface`
 
         services:
             instaphp_token_handler:
@@ -120,4 +134,4 @@ Credits
 -------
 
 * Ollie Harridge (ollietb) as the author.
-* Randy (sesser) for writing the Instaphp script [https://github.com/sesser/Instaphp]
+* Randy (sesser) for writing the Instaphp script at [https://github.com/sesser/Instaphp]

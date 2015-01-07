@@ -1,6 +1,6 @@
 <?php
 
-namespace Oh\InstagramBundle\Adaptor;
+namespace Oh\InstagramBundle\Adapter;
 
 use Instaphp\Instaphp;
 use Instaphp\Instagram\Response;
@@ -9,7 +9,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Oh\InstagramBundle\TokenHandler\TokenHandlerInterface;
 use Monolog\Logger;
 
-class InstaphpAdaptor extends Instaphp
+class InstaphpAdapter extends Instaphp
 {
 	/**
 	 * @var array Storage for the endpoints
@@ -52,12 +52,12 @@ class InstaphpAdaptor extends Instaphp
 			'redirect_route'        => 'OhInstagramBundle_callback',
 		];
 
-		$this->config = $config + $defaults;
-
 		// If a router is passed, generate the redirect url from the route
 		if ($router) {
 			$config['redirect_uri'] = $router->generate($config['redirect_route'], array(), true);
 		}
+
+		$this->config = $config + $defaults;
 
 		// Can't do anything without a client_id...
 		if (empty($this->config['client_id'])) {
