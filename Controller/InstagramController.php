@@ -2,6 +2,7 @@
 
 namespace Oh\InstagramBundle\Controller;
 
+use Instaphp\Exceptions\Exception;
 use Oh\InstagramBundle\Adapter\InstaphpAdapter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,14 +26,14 @@ class InstagramController extends Controller
 		if (!empty($code))
 		{
 			//-- Create an Instaphp instance
-			/* @var $api InstaphpAdaptor */
+			/* @var $api InstaphpAdapter */
 			$api = $this->get('instaphp');
 
-			//-- Authenticate
-			$success = $api->Users->Authorize($code);
+			try {
 
-			if ($success)
-			{
+				//-- Authenticate
+				$success = $api->Users->Authorize($code);
+
 				$token = $api->getAccessToken();
 
 				$isLoggedIn = $this->get('instaphp_token_handler')->setToken($token);
@@ -41,9 +42,13 @@ class InstagramController extends Controller
 
 				return $this->redirect($this->generateUrl($this->container->getParameter('instaphp.redirect_route_login')));
 			}
-			else
+			catch(Exception $e)
 			{
-				throw $this->createNotFoundException();
+				throw $this->createNotFoundException('Invalid Request', $e);
+			}
+			catch (\Exception $e)
+			{
+				throw $this->createNotFoundException('Error', $e);
 			}
 		}
 
