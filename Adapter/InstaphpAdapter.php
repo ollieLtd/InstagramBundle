@@ -14,21 +14,22 @@ class InstaphpAdapter extends Instaphp
 	/**
 	 * @var array Storage for the endpoints
 	 */
-	protected static $endpoints = [];
+	protected static $endpoints = array();
 
 	/**
 	 * @var array Available endpoints
 	 */
-	protected static $availableEndpoints = ['media', 'users', 'tags', 'locations', 'subscriptions', 'direct'];
+	protected static $availableEndpoints = array('media', 'users', 'tags', 'locations', 'subscriptions', 'direct');
 
 	/**
 	 * Different construct to integrate better with Symfony2
 	 */
 	public function __construct($tokenClass = null, $config = array(), RouterInterface $router = null)
 	{
-		$ua = sprintf('Instaphp/2.0; cURL/%s; (+http://instaphp.com)', curl_version()['version']);
+        $curlVersion = curl_version();
+		$ua = sprintf('Instaphp/2.0; cURL/%s; (+http://instaphp.com)', $curlVersion['version']);
 
-		$defaults = [
+		$defaults = array(
 			'client_id'	            => '',
 			'client_secret'         => '',
 			'access_token'          => '',
@@ -45,12 +46,12 @@ class InstaphpAdapter extends Instaphp
 			'http_connect_timeout'  => 2,
             'verify'                => true,
 			'debug'                 => false,
-			'event.before'          => [],
-			'event.after'           => [],
-			'event.error'           => [],
+			'event.before'          => array(),
+			'event.after'           => array(),
+			'event.error'           => array(),
 			'oauth_token_path'      => 'oauth/access_token',
 			'redirect_route'        => 'OhInstagramBundle_callback',
-		];
+        );
 
 		// If a router is passed, generate the redirect url from the route
 		if ($router) {
