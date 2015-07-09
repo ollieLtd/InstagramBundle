@@ -3,18 +3,6 @@ parameters:
     instaphp.token_class: Oh\InstagramBundle\TokenHandler\CookieToken
     instaphp.redirect_route_login: OhInstagramBundle_check
     instaphp.redirect_route_logout: OhInstagramBundle_check
-    
-    instaphp.config:
-      version: v1
-      log_path: %kernel.logs_dir%/instaphp-%kernel.environment%.log
-      endpoint: https://api.instagram.com
-      client_id: %instagram_api_client_id%
-      client_secret: %instagram_api_client_secret%
-      scope: comments+likes+relationships
-      oauth_path: /oauth/authorize/?client_id={client_id}&amp;response_type=code&amp;redirect_uri={redirect_uri}
-      oauth_token_path: /oauth/access_token/
-      redirect_route: OhInstagramBundle_callback
-      no_verify_peer: true
 
 services:
     instaphp_token_handler:

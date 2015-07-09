@@ -1,0 +1,16 @@
+oh_instagram:
+    instaphp:
+        config:
+            http_timeout: 6
+            http_connect_timeout: 2
+            version: v1
+            log_path: %kernel.logs_dir%/instaphp-%kernel.environment%.log
+            endpoint: https://api.instagram.com
+            client_id: ~
+            client_secret: ~
+            scope: comments+likes+relationships
+            oauth_path: /oauth/authorize/?client_id={client_id}&amp;response_type=code&amp;redirect_uri={redirect_uri}
+            oauth_token_path: /oauth/access_token/
+            redirect_route: OhInstagramBundle_callback
+            no_verify_peer: true
+
