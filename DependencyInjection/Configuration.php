@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('instaphp')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->arrayNode('config')
                             ->addDefaultsIfNotSet()
