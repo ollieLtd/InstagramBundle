@@ -9,7 +9,7 @@ services:
         class:            %instaphp.token_class%
     instaphp:
         class:            %instaphp.class%
-        arguments:        [@instaphp_token_handler, %instaphp.config%, @router]
+        arguments:        ['@instaphp_token_handler', %instaphp.config%, '@router']
         
         
 #### to get/set the instagram token from your user entity

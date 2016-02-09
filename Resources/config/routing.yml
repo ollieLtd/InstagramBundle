@@ -1,23 +1,23 @@
 OhInstagramBundle_callback:
-    pattern: /instaphp/callback
+    path: /instaphp/callback
     defaults: { _controller: OhInstagramBundle:Instagram:callback }
     
 OhInstagramBundle_logout:
-    pattern: /logout
+    path: /logout
     defaults: { _controller: OhInstagramBundle:Instagram:logout }
     
 OhInstagramBundle_ajax_location_search:
-    pattern: /ajax/locationSearch
+    path: /ajax/locationSearch
     defaults: { _controller: OhInstagramBundle:Instagram:locationSearch, _format: json }
 
 OhInstagramBundle_ajax_follow:
-    pattern: /ajax/follow
+    path: /ajax/follow
     defaults: { _controller: OhInstagramBundle:Instagram:follow, _format: json }
 
 OhInstagramBundle_ajax_like:
-    pattern: /ajax/like
+    path: /ajax/like
     defaults: { _controller: OhInstagramBundle:Instagram:like, _format: json }
 
 OhInstagramBundle_ajax_comment:
-    pattern: /ajax/comment
+    path: /ajax/comment
     defaults: { _controller: OhInstagramBundle:Instagram:comment, _format: json }
