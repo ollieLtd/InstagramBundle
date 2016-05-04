@@ -38,6 +38,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('oauth_token_path')->defaultValue('/oauth/access_token/')->end()
                                 ->scalarNode('redirect_route')->defaultValue('OhInstagramBundle_callback')->end()
                                 ->booleanNode('no_verify_peer')->defaultFalse()->end()
+                                ->booleanNode('log_enabled')->defaultTrue()->end()
                                 ->integerNode('http_timeout')->defaultValue(6)->end()
                                 ->integerNode('http_connect_timeout')->defaultValue(2)->end()
                             ->end()
