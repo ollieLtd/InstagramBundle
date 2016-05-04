@@ -34,7 +34,7 @@ Add the following to `app/config/config.yml`:
 
 ```yaml
 imports:
-    - { resource: @OhInstagramBundle/Resources/config/services.yml }
+    - { resource: "@OhInstagramBundle/Resources/config/services.yml" }
 
 oh_instagram:
     instaphp:
@@ -94,7 +94,7 @@ For quick testing purposes you can add this to your routing:
 
 ```yaml
 OhInstagramBundle_check:
-    pattern: /checkInstagram
+    path: /checkInstagram
     defaults: { _controller: OhInstagramBundle:Instagram:instagramLoginStatus }
 ```
 
@@ -134,7 +134,7 @@ recommended that you use on your entity:
 services:
     instaphp_token_handler:
         class: Oh\InstagramBundle\TokenHandler\UserToken
-            arguments: [@security.context, @doctrine.orm.default_entity_manager]
+            arguments: ["@security.context", "@doctrine.orm.default_entity_manager"]
 ```
 
 ### Both
@@ -146,12 +146,12 @@ can't it will store the auth code in a cookie.
 services:
     instaphp_user_token_handler:
         class: Oh\InstagramBundle\TokenHandler\UserToken
-        arguments: [@security.context, @doctrine.orm.default_entity_manager]
+        arguments: ["@security.context", "@doctrine.orm.default_entity_manager"]
     instaphp_cookie_token_handler:
         class: Oh\InstagramBundle\TokenHandler\CookieToken
     instaphp_token_handler:
         class: Oh\InstagramBundle\TokenHandler\TokenManager
-        arguments: [@instaphp_user_token_handler, @instaphp_cookie_token_handler]
+        arguments: ["@instaphp_user_token_handler", "@instaphp_cookie_token_handler"]
 ```
 
 You can also implement your own TokenHandlerInterface to store the auth code
