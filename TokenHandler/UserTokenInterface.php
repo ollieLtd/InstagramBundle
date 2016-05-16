@@ -17,7 +17,7 @@ namespace Oh\InstagramBundle\TokenHandler;
  */
 interface UserTokenInterface {
 
-    public function setInstagramAuthCode();
+    public function setInstagramAuthCode($instagramAuthCode);
 
     public function getInstagramAuthCode();
 }
