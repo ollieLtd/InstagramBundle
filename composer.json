@@ -11,10 +11,10 @@
             "name": "Ollie Harridge",
             "email": "code@oll.ie"
         },
-		{
-			"name": "sesser (randy)",
-			"email": "randy@instaphp.com"
-		},
+	{
+            "name": "sesser (randy)",
+            "email": "randy@instaphp.com"
+        },
         {
             "name": "Stephen Wilkinson",
             "email": "stephen@crowdreactive.com"
@@ -23,7 +23,7 @@
     "require": {
         "php": ">=5.3.2",
         "symfony/framework-bundle": "*",
-        "instaphp/instaphp": "2.*"
+        "instaphp/instaphp": "dev-master"
     },
     "autoload": {
         "psr-0": { 
