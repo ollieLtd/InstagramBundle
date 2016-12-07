@@ -65,12 +65,14 @@ class InstaphpAdapter extends Instaphp
 		}
 
 		// Get the token
-		if ($tokenClass instanceof TokenHandlerInterface) {
-			$token = $tokenClass->getToken();
-		} else {
-			$token = null;
-		}
+		if (empty($this->config['access_token'])) {
+			if ($tokenClass instanceof TokenHandlerInterface) {
+				$token = $tokenClass->getToken();
+			} else {
+				$token = null;
+			}
 
-		$this->setAccessToken($token);
+			$this->setAccessToken($token);
+		}
 	}
 }

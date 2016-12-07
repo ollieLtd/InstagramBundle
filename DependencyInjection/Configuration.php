@@ -33,6 +33,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('endpoint')->defaultValue('https://api.instagram.com')->end()
                                 ->scalarNode('client_id')->isRequired()->cannotBeEmpty()->end()
                                 ->scalarNode('client_secret')->isRequired()->cannotBeEmpty()->end()
+                                ->scalarNode('access_token')->defaultValue('')->end()
                                 ->scalarNode('scope')->defaultValue('comments+likes+relationships')->end()
                                 ->scalarNode('oauth_path')->defaultValue('/oauth/authorize/?client_id={client_id}&amp;response_type=code&amp;redirect_uri={redirect_uri}')->end()
                                 ->scalarNode('oauth_token_path')->defaultValue('/oauth/access_token/')->end()
