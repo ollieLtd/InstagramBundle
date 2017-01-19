@@ -41,7 +41,7 @@ oh_instagram:
         config:
             client_id: %instagram_api_client_id%
             client_secret: %instagram_api_client_secret%
-            access_token: %instagram_api_access_token% // (optional)
+            access_token: %instagram_api_access_token% # (optional)
 ```
 
 And add these parameters:
@@ -49,7 +49,7 @@ And add these parameters:
 ```yaml
 instagram_api_client_id: YOUR_API_ID
 instagram_api_client_secret: YOUR_API_SECRET
-instagram_api_access_token: YOUR_API_ACCESS_TOKEN // (optional)
+instagram_api_access_token: YOUR_API_ACCESS_TOKEN # (optional)
 ```
 
 Most of the Instaphp configuration keys can be set in
