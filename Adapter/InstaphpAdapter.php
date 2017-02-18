@@ -54,7 +54,7 @@ class InstaphpAdapter extends Instaphp
 
 		// If a router is passed, generate the redirect url from the route
 		if ($router) {
-			$config['redirect_uri'] = $router->generate($config['redirect_route'], array(), true);
+			$config['redirect_uri'] = $router->generate($config['redirect_route'], array(), UrlGeneratorInterface::ABSOLUTE_URL);
 		}
 
 		$this->config = $config + $defaults;
