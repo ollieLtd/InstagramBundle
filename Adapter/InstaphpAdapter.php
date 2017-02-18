@@ -8,6 +8,7 @@ use Instaphp\Exceptions\InstaphpException;
 use Symfony\Component\Routing\RouterInterface;
 use Oh\InstagramBundle\TokenHandler\TokenHandlerInterface;
 use Monolog\Logger;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class InstaphpAdapter extends Instaphp
 {
