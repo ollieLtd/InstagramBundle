@@ -6,9 +6,9 @@ parameters:
 
 services:
     instaphp_token_handler:
-        class:            %instaphp.token_class%
+        class:            "%instaphp.token_class%"
     instaphp:
-        class:            %instaphp.class%
+        class:            "%instaphp.class%"
         arguments:        ["@instaphp_token_handler", "%instaphp.config%", "@router"]
         
         
@@ -18,7 +18,7 @@ services:
 #    
 #services:
 #    instaphp_token_handler:
-#        class:            %instaphp.token_class%
+#        class:            "%instaphp.token_class%"
 #        arguments:        ["@security.context", "@doctrine.orm.default_entity_manager"]
 
 
@@ -31,11 +31,11 @@ services:
 #    
 #services:
 #    instaphp_user_token_handler:
-#        class:            %instaphp.user_token_class%
+#        class:            "%instaphp.user_token_class%"
 #        arguments:        ["@security.context", "@doctrine.orm.default_entity_manager"]
 #    instaphp_cookie_token_handler:
-#        class:            %instaphp.cookie_token_class%
+#        class:            "%instaphp.cookie_token_class%"
 #
 #    instaphp_token_handler:
-#        class:            %instaphp.token_class%
+#        class:            "%instaphp.token_class%"
 #        arguments:        ["@instaphp_user_token_handler", "@instaphp_cookie_token_handler"]
