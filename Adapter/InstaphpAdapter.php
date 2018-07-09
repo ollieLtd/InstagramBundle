@@ -8,6 +8,7 @@ use Instaphp\Exceptions\InstaphpException;
 use Symfony\Component\Routing\RouterInterface;
 use Oh\InstagramBundle\TokenHandler\TokenHandlerInterface;
 use Monolog\Logger;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class InstaphpAdapter extends Instaphp
 {
@@ -54,7 +55,7 @@ class InstaphpAdapter extends Instaphp
 
 		// If a router is passed, generate the redirect url from the route
 		if ($router) {
-			$config['redirect_uri'] = $router->generate($config['redirect_route'], array(), true);
+			$config['redirect_uri'] = $router->generate($config['redirect_route'], array(), UrlGeneratorInterface::ABSOLUTE_URL);
 		}
 
 		$this->config = $config + $defaults;
