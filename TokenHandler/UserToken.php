@@ -4,34 +4,29 @@ namespace Oh\InstagramBundle\TokenHandler;
 
 use Oh\InstagramBundle\TokenHandler\TokenHandlerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class UserToken implements TokenHandlerInterface
 {
-
-    /**
-     * The current security context (usually @security.context)
-     * @var Symfony\Component\Security\Core\SecurityContextInterface 
-     */
-    private $securityContext;
-    
     /**
      * The currently logged in user
-     * @var User 
+     * @var User
      */
     private $user = false;
-    
+
     /**
      * The Doctrine entity manager (usually @doctrine.orm.default_entity_manager)
-     * @var Doctrine\ORM\EntityManager 
+     * @var Doctrine\ORM\EntityManager
      */
     private $em;
-    
-    public function __construct($securityContext, $em) {
-        $this->securityContext = $securityContext;
-        $token = $securityContext->getToken();
+
+    public function __construct(TokenStorageInterface $tokenStorage, $em) {
+        $token = $tokenStorage->getToken();
+
         if($token instanceof TokenInterface) {
-            $this->user = $securityContext->getToken()->getUser();
+            $this->user = $tokenStorage->getToken()->getUser();
         }
+
         $this->em = $em;
     }
     
